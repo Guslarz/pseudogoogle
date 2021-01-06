@@ -1,8 +1,15 @@
 CC := gcc
-
+CCX := g++
+CFLAGS := -Wall
+LDFLAGS :=
+EXEC := main.cc
+EXEC_OUTPUT := main
 GUMBO_DIR := ./third_party/gumbo-parser
 
-all: gumbo
+all: $(EXEC_OUTPUT)
+
+$(EXEC_OUTPUT): $(EXEC) gumbo 
+	$(CCX) $< $(CFLAGS) $(LDFLAGS) -o $@
 
 gumbo:
 	cd $(GUMBO_DIR) && ./autogen.sh
