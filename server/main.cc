@@ -6,7 +6,7 @@
 #include "server/server.h"
 #include "storage/storage.h"
 
-constexpr int kDefualtFetcherMaxDepth = 5;
+constexpr int kDefualtMaxDepth = 5;
 
 namespace pseudogoogle {
 
@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
   }
 
   pseudogoogle::Options options;
-  options.max_depth = kDefualtFetcherMaxDepth;
+  options.max_depth = kDefualtMaxDepth;
 
   for (int i = 1; i < argc; ++i) {
     int tmp;
