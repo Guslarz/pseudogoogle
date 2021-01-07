@@ -1,8 +1,8 @@
-GUMBO_DIR := ./third_party/gumbo-parser
+MYHTML_DIR := ./third_party/myhtml
 
 CCX := g++
-CCXFLAGS := -Wall -I./ -I$(GUMBO_DIR)/src
-LDFLAGS := 
+CCXFLAGS := -Wall -I./ -I$(MYHTML_DIR)/include -L$(MYHTML_DIR)/lib -pthread
+LDFLAGS := -lmyhtml_static -lpthread
 EXEC := main.cc
 EXEC_OUTPUT := main
 OBJ := \
@@ -14,17 +14,14 @@ OBJ := \
 all: $(EXEC_OUTPUT)
 
 $(EXEC_OUTPUT): $(EXEC) $(OBJ)
-	$(GUMBO_DIR)/libtool --mode=link $(CCX) $^ $(CCXFLAGS) $(LDFLAGS) -o $@ \
-		$(GUMBO_DIR)/libgumbo.la
+	$(CCX) $^ $(CCXFLAGS) $(LDFLAGS) -o $@
 
-$(OBJ):	%.o : %.cc gumbo
+$(OBJ):	%.o : %.cc myhtml
 	$(CCX) $< $(CCXFLAGS) -c -o $@
 
-gumbo:
-	cd $(GUMBO_DIR) && ./autogen.sh
-	cd $(GUMBO_DIR) && ./configure
-	$(MAKE) -C $(GUMBO_DIR)
+myhtml:
+	$(MAKE) -C $(MYHTML_DIR)
 
 clean:
 	rm -f $(OBJ)
-	$(MAKE) -C $(GUMBO_DIR) clean
+	$(MAKE) -C $(MYHTML_DIR) clean
