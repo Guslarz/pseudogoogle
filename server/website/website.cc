@@ -10,6 +10,9 @@ Website::Website(const std::string& url) {
   // verify content-type
   // parse using gumbo
   // add words to word_counter_ and link to links
+
+  // example myhtml code
+
   char html[] = "<div><span>HTML</span></div>";
 
   // basic init

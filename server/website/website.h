@@ -1,5 +1,5 @@
-#ifndef PSEUDOGOOGLE_FETCHER_FETCHER_H
-#define PSEUDOGOOGLE_FETCHER_FETCHER_H
+#ifndef PSEUDOGOOGLE_WEBSITE_WEBSITE_H
+#define PSEUDOGOOGLE_WEBSITE_WEBSITE_H
 
 #include <unordered_map>
 #include <unordered_set>
@@ -39,4 +39,4 @@ class Website {
 
 }  // namespace pseudogoogle
 
-#endif  // PSEUDOGOOGLE_FETCHER_FETCHER_H
+#endif  // PSEUDOGOOGLE_WEBSITE_WEBSITE_H

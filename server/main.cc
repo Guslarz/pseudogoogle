@@ -14,8 +14,12 @@ namespace pseudogoogle {
  * Print some help about program
  */
 void ShowHelp() {
-  std::printf("Psudogoogle\n\n");
-  std::printf("TODO show info about params.\n");
+  std::printf("\n");
+  std::printf("Pseudogoogle\n\n");
+  std::printf("  --help\t\t\tPrint this message\n");
+  std::printf("  --url=<string>\t\tSet root url (first visited website)\n");
+  std::printf("  --max_depth=<int>\t\tSet max depth when indexing websites\n");
+  std::printf("\n");
 }
 
 }  // namespace pseudogoogle
