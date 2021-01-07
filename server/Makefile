@@ -1,6 +1,8 @@
+GUMBO_DIR := ./third_party/gumbo-parser
+
 CCX := g++
-CCXFLAGS := -Wall -I./
-LDFLAGS :=
+CCXFLAGS := -Wall -I./ -I$(GUMBO_DIR)/src
+LDFLAGS := 
 EXEC := main.cc
 EXEC_OUTPUT := main
 OBJ := \
@@ -8,14 +10,14 @@ OBJ := \
 	storage/storage.o \
 	loader/loader.o \
 	server/server.o
-GUMBO_DIR := ./third_party/gumbo-parser
 
 all: $(EXEC_OUTPUT)
 
 $(EXEC_OUTPUT): $(EXEC) $(OBJ)
-	$(CCX) $^ $(CCXFLAGS) $(LDFLAGS) -o $@
+	$(GUMBO_DIR)/libtool --mode=link $(CCX) $^ $(CCXFLAGS) $(LDFLAGS) -o $@ \
+		$(GUMBO_DIR)/libgumbo.la
 
-$(OBJ):	%.o : %.cc
+$(OBJ):	%.o : %.cc gumbo
 	$(CCX) $< $(CCXFLAGS) -c -o $@
 
 gumbo:
