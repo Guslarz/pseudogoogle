@@ -4,7 +4,7 @@ CCX := g++
 CCXFLAGS := -Wall -I./ -I$(MYHTML_DIR)/include -L$(MYHTML_DIR)/lib -pthread
 LDFLAGS := -lmyhtml_static -lpthread
 EXEC := main.cc
-EXEC_OUTPUT := main
+EXEC_OUTPUT := server_main
 OBJ := \
 	website/website.o \
 	storage/storage.o \
