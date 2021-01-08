@@ -6,8 +6,8 @@ void Storage::AddWord(const std::string& url, const std::string& word,
                       int word_count) {
   auto it = indexed_words_.find(word);
   if (it == indexed_words_.end()) {
-    auto pair = indexed_words_.emplace(word);
-    it = pair.first;
+    it = indexed_words_.emplace(word, std::set<Record, RecordOrderComparator>())
+             .first;
   }
   it->second.emplace(word, word_count);
 }
@@ -20,6 +20,7 @@ const std::set<Record, RecordOrderComparator>* Storage::FindWord(
   } else {
     return &it->second;
   }
+  return nullptr;
 }
 
 }  // namespace pseudogoogle

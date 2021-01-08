@@ -1,5 +1,5 @@
 CCX := g++
-CCXFLAGS := -Wall -I./
+CCXFLAGS := -Wall -I./ -std=c++17
 LDFLAGS := -lcurl -lgumbo
 EXEC := main.cc
 EXEC_OUTPUT := server_main
