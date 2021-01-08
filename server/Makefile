@@ -1,11 +1,10 @@
-MYHTML_DIR := ./third_party/myhtml
-
 CCX := g++
-CCXFLAGS := -Wall -I./ -I$(MYHTML_DIR)/include -L$(MYHTML_DIR)/lib -pthread
-LDFLAGS := -lmyhtml_static -lpthread
+CCXFLAGS := -Wall -I./
+LDFLAGS := -lcurl
 EXEC := main.cc
 EXEC_OUTPUT := server_main
 OBJ := \
+	website/get_request.o \
 	website/website.o \
 	storage/storage.o \
 	loader/loader.o \
@@ -16,12 +15,8 @@ all: $(EXEC_OUTPUT)
 $(EXEC_OUTPUT): $(EXEC) $(OBJ)
 	$(CCX) $^ $(CCXFLAGS) $(LDFLAGS) -o $@
 
-$(OBJ):	%.o : %.cc myhtml
+$(OBJ):	%.o : %.cc
 	$(CCX) $< $(CCXFLAGS) -c -o $@
-
-myhtml:
-	$(MAKE) -C $(MYHTML_DIR)
 
 clean:
 	rm -f $(OBJ)
-	$(MAKE) -C $(MYHTML_DIR) clean
