@@ -4,17 +4,22 @@ namespace pseudogoogle {
 
 void Storage::AddWord(const std::string& url, const std::string& word,
                       int word_count) {
-  // TODO
-  // add word and empty ser if first time
-  // else add new record to existing set
+  auto it = indexed_words_.find(word);
+  if (it == indexed_words_.end()) {
+    auto pair = indexed_words_.emplace(word);
+    it = pair.first;
+  }
+  it->second.emplace(word, word_count);
 }
 
 const std::set<Record, RecordOrderComparator>* Storage::FindWord(
     const std::string& word) const {
-  // TODO
-  // return set of records corresponding to specified word
-  // or nullptr if not found
-  return nullptr;
+  auto it = indexed_words_.find(word);
+  if (it == indexed_words_.end()) {
+    return nullptr;
+  } else {
+    return &it->second;
+  }
 }
 
 }  // namespace pseudogoogle
