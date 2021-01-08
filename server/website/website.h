@@ -1,6 +1,8 @@
 #ifndef PSEUDOGOOGLE_WEBSITE_WEBSITE_H
 #define PSEUDOGOOGLE_WEBSITE_WEBSITE_H
 
+#include <gumbo.h>
+
 #include <unordered_map>
 #include <unordered_set>
 
@@ -35,6 +37,14 @@ class Website {
   bool valid_;
   std::unordered_map<std::string, int> word_counter_;
   std::unordered_set<std::string> links_;
+
+  void Parse(const std::string& document);
+
+  void HandleText(const GumboNode* node);
+
+  void HandleLink(const GumboNode* node);
+
+  void AddWord(const std::string& word);
 };
 
 }  // namespace pseudogoogle
