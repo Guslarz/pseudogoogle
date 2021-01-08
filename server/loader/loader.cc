@@ -18,7 +18,6 @@ void Loader::LoadIntoStorage(Storage& storage) const {
 
   while (!urls.empty()) {
     const auto& [url, depth] = urls.top();
-    urls.pop();
 
     Website website(url);
 
@@ -34,6 +33,8 @@ void Loader::LoadIntoStorage(Storage& storage) const {
         visited.insert(link_url);
       }
     }
+
+    urls.pop();
   }
 }
 

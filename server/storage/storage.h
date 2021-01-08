@@ -26,6 +26,8 @@ class Storage {
   const std::set<Record, RecordOrderComparator>* FindWord(
       const std::string& word) const;
 
+  std::string ToString() const;
+
  private:
   std::unordered_map<std::string, std::set<Record, RecordOrderComparator>>
       indexed_words_;

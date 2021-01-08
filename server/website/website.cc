@@ -2,9 +2,11 @@
 
 #include <gumbo.h>
 
-#include <cstdio>
+#include <algorithm>
+#include <iostream>
 #include <regex>
 #include <stack>
+#include <string>
 
 #include "website/get_request.h"
 
@@ -12,7 +14,7 @@ namespace pseudogoogle {
 
 Website::Website(const std::string& url) {
   GetRequest request(url);
-  if (!request.IsValid() || request.ContentType() != "text/html") {
+  if (!request.IsValid() || request.ContentType().find("text/html") != 0) {
     valid_ = false;
     return;
   }
@@ -22,7 +24,7 @@ Website::Website(const std::string& url) {
 
 void Website::Parse(const std::string& document) {
   GumboOutput* output = gumbo_parse(document.c_str());
-  std::stack<GumboNode*> nodes;
+  std::stack<const GumboNode*> nodes;
   nodes.push(output->root);
 
   while (!nodes.empty()) {
@@ -51,7 +53,7 @@ void Website::Parse(const std::string& document) {
         // add children
         children = &element->children;
         for (unsigned int i = 0; i < children->length; ++i) {
-          nodes.push(reinterpret_cast<GumboNode*>(children->data[i]));
+          nodes.push(reinterpret_cast<const GumboNode*>(children->data[i]));
         }
         break;
       default:
@@ -69,7 +71,10 @@ void Website::HandleText(const GumboNode* node) {
   for (std::sregex_iterator it =
            std::sregex_iterator(text.begin(), text.end(), kWordRegex);
        it != std::sregex_iterator(); ++it) {
-    AddWord(it->str());
+    std::string word = it->str();
+    std::transform(word.begin(), word.end(), word.begin(),
+                   [](char c) { return std::tolower(c); });
+    AddWord(word);
   }
 }
 

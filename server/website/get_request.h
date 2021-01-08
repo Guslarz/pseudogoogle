@@ -23,7 +23,6 @@ class GetRequest {
 
  private:
   bool valid_;
-
   std::string content_type_;
   std::string content_;
 };

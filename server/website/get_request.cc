@@ -25,21 +25,24 @@ GetRequest::GetRequest(const std::string& url) {
   curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
   curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteFunction);
 
+  std::string content;
   std::string header;
-  curl_easy_setopt(curl, CURLOPT_WRITEDATA, &content_);
+  curl_easy_setopt(curl, CURLOPT_WRITEDATA, &content);
   curl_easy_setopt(curl, CURLOPT_WRITEHEADER, &header);
 
+  curl_easy_perform(curl);
+
   long response_code;
-  char content_type[128];
+  char* content_type;
   curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
   curl_easy_getinfo(curl, CURLINFO_CONTENT_TYPE, &content_type);
 
-  curl_easy_perform(curl);
-  curl_easy_cleanup(curl);
-  curl_global_cleanup();
-
   valid_ = response_code == 200;
   content_type_ = std::string(content_type);
+  content_ = content;
+
+  curl_easy_cleanup(curl);
+  curl_global_cleanup();
 }
 
 }  // namespace pseudogoogle

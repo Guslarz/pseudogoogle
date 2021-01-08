@@ -1,5 +1,7 @@
 #include "server/server.h"
 
+#include <iostream>
+
 #include "website/website.h"
 
 namespace pseudogoogle {
@@ -9,8 +11,7 @@ void Server::Run() const {
   // Run server
   // Decide how to request data from it and what response is
   // Implement everything
-
-  Website website("https://example.com");
+  std::cout << storage_.ToString() << std::endl;
 }
 
 }  // namespace pseudogoogle

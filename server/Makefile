@@ -15,7 +15,7 @@ all: $(EXEC_OUTPUT)
 $(EXEC_OUTPUT): $(EXEC) $(OBJ)
 	$(CCX) $^ $(CCXFLAGS) $(LDFLAGS) -o $@
 
-$(OBJ):	%.o : %.cc
+$(OBJ):	%.o : %.cc %.h
 	$(CCX) $< $(CCXFLAGS) -c -o $@
 
 clean:
