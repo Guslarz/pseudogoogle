@@ -26,11 +26,11 @@ void Website::Parse(const std::string& document) {
   nodes.push(output->root);
 
   while (!nodes.empty()) {
-    auto node = nodes.top();
+    const auto* node = nodes.top();
     nodes.pop();
 
-    GumboElement* element;
-    GumboVector* children;
+    const GumboElement* element;
+    const GumboVector* children;
 
     switch (node->type) {
       case GUMBO_NODE_TEXT:
