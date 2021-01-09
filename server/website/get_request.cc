@@ -25,10 +25,7 @@ GetRequest::GetRequest(const std::string& url) {
   curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
   curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteFunction);
 
-  std::string content;
-  std::string header;
-  curl_easy_setopt(curl, CURLOPT_WRITEDATA, &content);
-  curl_easy_setopt(curl, CURLOPT_WRITEHEADER, &header);
+  curl_easy_setopt(curl, CURLOPT_WRITEDATA, &content_);
 
   curl_easy_perform(curl);
 
@@ -40,7 +37,6 @@ GetRequest::GetRequest(const std::string& url) {
   valid_ = response_code == 200;
   if (valid_) {
     content_type_ = std::string(content_type);
-    content_ = content;
   }
 
   curl_easy_cleanup(curl);
