@@ -10,6 +10,8 @@ constexpr int kDefualtMaxDepth = 5;
 
 constexpr int kDefaultNodeLimit = 100;
 
+constexpr int kDefaultPort = 8080;
+
 /**
  * Print help about program
  */
@@ -17,6 +19,8 @@ void ShowHelp() {
   std::printf("\n");
   std::printf("Pseudogoogle\n\n");
   std::printf("  --help\t\t\tPrint this message\n");
+  std::printf("  --port=<int>\t\t\nPort for server, default %d\n",
+              kDefaultPort);
   std::printf("  --url=<string>\t\tSet root url (first visited website)\n");
   std::printf("  --max-depth=<int>\t\tSet max depth for indexing websites,\n");
   std::printf("\t\t\t\t-1 to disable, default %d\n", kDefualtMaxDepth);
@@ -38,6 +42,7 @@ int main(int argc, char* argv[]) {
   pseudogoogle::Options options;
   options.max_depth = kDefualtMaxDepth;
   options.node_limit = kDefaultNodeLimit;
+  options.port = kDefaultPort;
   for (int i = 1; i < argc; ++i) {
     int tmp;
     if (strncmp(argv[i], "--help", 6) == 0) {
@@ -49,6 +54,8 @@ int main(int argc, char* argv[]) {
       options.max_depth = tmp;
     } else if (sscanf(argv[i], "--node-limit=%d", &tmp)) {
       options.node_limit = tmp;
+    } else if (sscanf(argv[i], "--port=%d", &tmp)) {
+      options.port = tmp;
     } else {
       std::fprintf(stderr, "Invalid flag '%s'", argv[i]);
       return EXIT_FAILURE;
@@ -59,11 +66,17 @@ int main(int argc, char* argv[]) {
   if (options.max_depth < -1) {
     std::fprintf(stderr, "Invalid --max-depth value\n");
     return EXIT_FAILURE;
-  } else if (options.node_limit < -1) {
+  }
+  if (options.node_limit < -1) {
     std::fprintf(stderr, "Invalid --node-limit value\n");
     return EXIT_FAILURE;
-  } else if (options.max_depth == -1 && options.node_limit == -1) {
+  }
+  if (options.max_depth == -1 && options.node_limit == -1) {
     std::fprintf(stderr, "--max-depth and --node-limit can't both be -1\n");
+    return EXIT_FAILURE;
+  }
+  if (options.port <= 0) {
+    std::fprintf(stderr, "Invalid --port value\n");
     return EXIT_FAILURE;
   }
 
@@ -73,7 +86,7 @@ int main(int argc, char* argv[]) {
   loader.LoadIntoStorage(storage);
 
   // run server
-  pseudogoogle::Server server(storage);
+  pseudogoogle::Server server(options, storage);
   server.Run();
 
   return EXIT_SUCCESS;

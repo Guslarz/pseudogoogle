@@ -14,6 +14,7 @@ namespace pseudogoogle {
  * After construction, if IsValid is true WordCounter provides count of each
  * found word and links provides referenced websites found.
  * Website can be deemed invalid e.g. if it isn't html.
+ * All words are lowercase.
  */
 class Website {
  public:

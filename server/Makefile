@@ -1,6 +1,6 @@
 CCX := g++
-CCXFLAGS := -Wall -I./ -std=c++17
-LDFLAGS := -lcurl -lgumbo
+CCXFLAGS := -Wall -I./ -std=c++17 -pthread
+LDFLAGS := -lcurl -lgumbo -lpthread
 EXEC := main.cc
 EXEC_OUTPUT := pseudogoogle_server
 OBJ := \
