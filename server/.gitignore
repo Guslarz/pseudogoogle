@@ -1,4 +1,4 @@
 .vscode
 *.o
 
-server_main
+pseudogoogle_server

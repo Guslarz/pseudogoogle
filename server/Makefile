@@ -2,7 +2,7 @@ CCX := g++
 CCXFLAGS := -Wall -I./ -std=c++17
 LDFLAGS := -lcurl -lgumbo
 EXEC := main.cc
-EXEC_OUTPUT := server_main
+EXEC_OUTPUT := pseudogoogle_server
 OBJ := \
 	website/get_request.o \
 	website/website.o \
