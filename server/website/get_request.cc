@@ -38,8 +38,10 @@ GetRequest::GetRequest(const std::string& url) {
   curl_easy_getinfo(curl, CURLINFO_CONTENT_TYPE, &content_type);
 
   valid_ = response_code == 200;
-  content_type_ = std::string(content_type);
-  content_ = content;
+  if (valid_) {
+    content_type_ = std::string(content_type);
+    content_ = content;
+  }
 
   curl_easy_cleanup(curl);
   curl_global_cleanup();

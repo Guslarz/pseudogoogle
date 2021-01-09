@@ -12,12 +12,17 @@ void Loader::LoadIntoStorage(Storage& storage) const {
   // stack of pairs of url and depth
   std::stack<std::pair<std::string, int>> urls;
   std::unordered_set<std::string> visited;
+  int node_count = 0;
 
   urls.emplace(url_, 0);
   visited.insert(url_);
 
   while (!urls.empty()) {
-    const auto& [url, depth] = urls.top();
+    auto [url, depth] = urls.top();
+    urls.pop();
+    ++node_count;
+
+    std::printf("Loader: indexing '%s' (depth %d)\n", url.c_str(), depth);
 
     Website website(url);
 
@@ -26,15 +31,23 @@ void Loader::LoadIntoStorage(Storage& storage) const {
       storage.AddWord(url, word, count);
     }
 
-    // add links
+    // end if node_limit reached
+    if (node_count == node_limit_) {
+      std::printf("Loader: node_limit reached\n");
+      break;
+    }
+
+    // add links if max_depth not reached
+    if (depth == max_depth_) {
+      continue;
+    }
+
     for (const auto& link_url : website.Links()) {
       if (visited.find(link_url) == visited.end()) {
         urls.emplace(link_url, depth + 1);
         visited.insert(link_url);
       }
     }
-
-    urls.pop();
   }
 }
 

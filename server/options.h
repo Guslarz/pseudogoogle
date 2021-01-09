@@ -8,6 +8,7 @@ namespace pseudogoogle {
 struct Options {
   std::string url;
   int max_depth;
+  int node_limit;
 };
 
 }  // namespace pseudogoogle
