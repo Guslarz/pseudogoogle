@@ -27,10 +27,10 @@ void ShowHelp() {
 }
 
 int main(int argc, char* argv[]) {
-  // if no params or --help param only then show help
+  // if no params then show help
   if (argc == 1) {
     ShowHelp();
-    return 0;
+    return EXIT_SUCCESS;
   }
 
   // load options
@@ -50,20 +50,20 @@ int main(int argc, char* argv[]) {
       options.node_limit = tmp;
     } else {
       std::fprintf(stderr, "Invalid flag '%s'", argv[i]);
-      std::exit(1);
+      return EXIT_FAILURE;
     }
   }
 
   // validate options
   if (options.max_depth < -1) {
     std::fprintf(stderr, "Invalid --max-depth value\n");
-    std::exit(1);
+    return EXIT_FAILURE;
   } else if (options.node_limit < -1) {
     std::fprintf(stderr, "Invalid --node-limit value\n");
-    std::exit(1);
+    return EXIT_FAILURE;
   } else if (options.max_depth == -1 && options.node_limit == -1) {
     std::fprintf(stderr, "--max-depth and --node-limit can't both be -1\n");
-    std::exit(1);
+    return EXIT_FAILURE;
   }
 
   // load websites data into storage
@@ -75,5 +75,5 @@ int main(int argc, char* argv[]) {
   pseudogoogle::Server server(storage);
   server.Run();
 
-  return 0;
+  return EXIT_SUCCESS;
 }
