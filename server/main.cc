@@ -11,18 +11,19 @@ constexpr int kDefualtMaxDepth = 5;
 constexpr int kDefaultNodeLimit = 100;
 
 /**
- * Print some help about program
+ * Print help about program
  */
 void ShowHelp() {
   std::printf("\n");
   std::printf("Pseudogoogle\n\n");
   std::printf("  --help\t\t\tPrint this message\n");
   std::printf("  --url=<string>\t\tSet root url (first visited website)\n");
-  std::printf("  --max-depth=<int>\t\tSet max depth for indexing websites,");
-  std::printf("\t-1 to disable, default %d\n", kDefualtMaxDepth);
-  std::printf("  --node-limit=<int>\t\tSet node limit for indexing websites,");
-  std::printf("\t-1 to disable, default %d\n", kDefaultNodeLimit);
-  std::printf("--max-depth and --node-limit can't both be -1\n");
+  std::printf("  --max-depth=<int>\t\tSet max depth for indexing websites,\n");
+  std::printf("\t\t\t\t-1 to disable, default %d\n", kDefualtMaxDepth);
+  std::printf(
+      "  --node-limit=<int>\t\tSet node limit for indexing websites,\n");
+  std::printf("\t\t\t\t-1 to disable, default %d\n", kDefaultNodeLimit);
+  std::printf("Params --max-depth and --node-limit can't both be -1\n");
   std::printf("\n");
 }
 
