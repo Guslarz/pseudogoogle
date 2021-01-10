@@ -1,6 +1,6 @@
-# Projekt z sieci komputerowych
+# Pseudogoogle
 
-## Wymagania
+## Requirements
 - libcurl
 ```bash
 $ sudo apt install libcurl4-openssl-dev
@@ -10,7 +10,7 @@ $ sudo apt install libcurl4-openssl-dev
 $ sudo apt install libgumbo-dev
 ```
 
-## Instalacja
+## Installation
 
 ```bash
 $ git clone https://gitlab.cs.put.poznan.pl/inf141240/pseudogoogle.git
