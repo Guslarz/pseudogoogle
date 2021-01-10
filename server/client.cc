@@ -12,7 +12,6 @@
 #include "util/coding.h"
 
 int main(int argc, char* argv[]) {
-  char buffer[128];
   int fd;
   struct sockaddr_in srv;
   struct hostent* addrent;
@@ -55,6 +54,33 @@ int main(int argc, char* argv[]) {
     printf("Word not found\n");
   } else {
     printf("Word found\n");
+
+    char number_buffer[4];
+    std::uint32_t rcount = 0;
+    while (rcount != 4) {
+      rcount += read(fd, number_buffer + rcount, 4 - rcount);
+    }
+    std::uint32_t record_count = pseudogoogle::DecodeFixed32(number_buffer);
+
+    for (std::uint32_t i = 0; i < record_count; ++i) {
+      rcount = 0;
+      while (rcount != 4) {
+        rcount += read(fd, number_buffer + rcount, 4 - rcount);
+      }
+      std::uint32_t length = pseudogoogle::DecodeFixed32(number_buffer);
+
+      char* url_buffer = new char[length + 1];
+
+      rcount = 0;
+      while (rcount != length) {
+        rcount += read(fd, url_buffer + rcount, length - rcount);
+      }
+      url_buffer[length] = '\0';
+
+      printf("%s\n", url_buffer);
+
+      delete url_buffer;
+    }
   }
 
   close(fd);
