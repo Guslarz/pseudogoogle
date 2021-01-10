@@ -1,8 +1,8 @@
 #ifndef PSEUDOGOOGLE_SERVER_SERVER_H
 #define PSEUDOGOOGLE_SERVER_SERVER_H
 
-#include "options.h"
 #include "storage/storage.h"
+#include "util/options.h"
 
 namespace pseudogoogle {
 
@@ -25,6 +25,8 @@ class Server {
   const Storage& storage_;
 
   int OpenServerSocket() const;
+
+  static void* HandleRequest(void* arg);
 };
 
 }  // namespace pseudogoogle

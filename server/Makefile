@@ -8,15 +8,25 @@ OBJ := \
 	website/website.o \
 	storage/storage.o \
 	loader/loader.o \
+	server/server_request.o \
+	server/server_response.o \
 	server/server.o
+DEPS := \
+	util/options.h \
+	util/record.h \
+	util/coding.h \
+	server/client_data.h
 
 all: $(EXEC_OUTPUT)
 
 $(EXEC_OUTPUT): $(EXEC) $(OBJ)
 	$(CCX) $^ $(CCXFLAGS) $(LDFLAGS) -o $@
 
-$(OBJ):	%.o : %.cc %.h
+$(OBJ):	%.o : %.cc %.h $(DEPS)
 	$(CCX) $< $(CCXFLAGS) -c -o $@
+
+client: client.cc util/coding.h
+	$(CCX) $< -Wall -std=c++17 -o $@
 
 clean:
 	rm -f $(OBJ)

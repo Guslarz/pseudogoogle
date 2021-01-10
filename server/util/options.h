@@ -1,5 +1,5 @@
-#ifndef PSEUDOGOOGLE_FETCHER_OPTIONS_H
-#define PSEUDOGOOGLE_FETCHER_OPTIONS_H
+#ifndef PSEUDOGOOGLE_UTIL_OPTIONS_H
+#define PSEUDOGOOGLE_UTIL_OPTIONS_H
 
 #include <string>
 
@@ -14,4 +14,4 @@ struct Options {
 
 }  // namespace pseudogoogle
 
-#endif  // PSEUDOGOOGLE_FETCHER_OPTIONS_H
+#endif  // PSEUDOGOOGLE_UTIL_OPTIONS_H

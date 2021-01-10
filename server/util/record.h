@@ -1,5 +1,5 @@
-#ifndef PSEUDOGOOGLE_STORAGE_RECORD_H
-#define PSEUDOGOOGLE_STORAGE_RECORD_H
+#ifndef PSEUDOGOOGLE_UTIL_RECORD_H
+#define PSEUDOGOOGLE_UTIL_RECORD_H
 
 #include <string>
 
@@ -46,4 +46,4 @@ class RecordOrderComparator {
 
 }  // namespace pseudogoogle
 
-#endif  // PSEUDOGOOGLE_STORAGE_RECORD_H
+#endif  // PSEUDOGOOGLE_UTIL_RECORD_H

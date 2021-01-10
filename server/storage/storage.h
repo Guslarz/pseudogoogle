@@ -4,7 +4,7 @@
 #include <set>
 #include <unordered_map>
 
-#include "storage/record.h"
+#include "util/record.h"
 
 namespace pseudogoogle {
 

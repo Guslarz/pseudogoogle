@@ -1,8 +1,8 @@
 #ifndef PSEUDOGOOGLE_LOADER_LOADER_H
 #define PSEUDOGOOGLE_LOADER_LOADER_H
 
-#include "options.h"
 #include "storage/storage.h"
+#include "util/options.h"
 
 namespace pseudogoogle {
 
