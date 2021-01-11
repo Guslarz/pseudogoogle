@@ -17,7 +17,8 @@ ServerRequest::ServerRequest(int socket_fd) {
 
   char* word_buffer = new char[length];
   ReadToBuffer(socket_fd, word_buffer, length);
-  std::transform(word_buffer, word_buffer + length, word_.begin(),
+  word_ = std::string(word_buffer, length);
+  std::transform(word_.begin(), word_.end(), word_.begin(),
                  [](char c) { return std::tolower(c); });
 }
 
