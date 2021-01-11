@@ -26,8 +26,8 @@ public class ConnectionFrame extends JFrame {
     setContentPane(contentPane);
     getRootPane().setDefaultButton(buttonConnect);
     setResizable(false);
-    setLocationRelativeTo(null);
     pack();
+    setLocationRelativeTo(null);
 
     buttonConnect.addActionListener(e -> onConnect());
 

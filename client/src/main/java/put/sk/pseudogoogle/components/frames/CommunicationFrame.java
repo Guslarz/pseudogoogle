@@ -1,6 +1,5 @@
 package put.sk.pseudogoogle.components.frames;
 
-import put.sk.pseudogoogle.data.Response;
 import put.sk.pseudogoogle.error.ConnectionException;
 import put.sk.pseudogoogle.logic.communication.Communicator;
 import put.sk.pseudogoogle.logic.connection.Connector;
@@ -8,8 +7,6 @@ import put.sk.pseudogoogle.logic.connection.Connector;
 import javax.swing.*;
 import java.awt.event.*;
 import java.net.Socket;
-import java.nio.charset.Charset;
-import java.util.List;
 
 public class CommunicationFrame extends JFrame {
   private final Connector connector;

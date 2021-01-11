@@ -30,7 +30,7 @@ public class Connector {
       try {
         socket.close();
       } catch (IOException exception) {
-        System.err.println("IOException");
+        throw new ConnectionException();
       }
       socket = null;
     }
