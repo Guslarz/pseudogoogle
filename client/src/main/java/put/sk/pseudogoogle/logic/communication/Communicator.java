@@ -40,7 +40,7 @@ public class Communicator {
         response.addUrl(url);
       }
       this.response = response;
-    } catch (IOException ex) {
+    } catch (Exception ex) {
       throw new ConnectionException();
     }
   }

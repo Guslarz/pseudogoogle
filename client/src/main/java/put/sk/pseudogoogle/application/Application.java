@@ -64,6 +64,10 @@ public class Application {
 
   private void responseFrameCancelCallback() {
     responseFrame.setVisible(false);
-    connectionFrame.setVisible(true);
+    if (connector.reconnect()) {
+      communicationFrame.setVisible(true);
+    } else {
+      connectionFrame.setVisible(true);
+    }
   }
 }
