@@ -10,15 +10,23 @@ $ sudo apt install libcurl4-openssl-dev
 $ sudo apt install libgumbo-dev
 ```
 
-## Installation
+## Getting source code
 
 ```bash
 $ git clone https://gitlab.cs.put.poznan.pl/inf141240/pseudogoogle.git
-$ cd pseudogoogle/server
+```
+
+## Server
+
+### Installation
+
+In `server` directory run:
+
+```bash
 $ make
 ```
 
-## Running server
+### Running server
 
 In `server` directory run e.g.:
 
@@ -30,4 +38,22 @@ You can learn more about parameters by running
 
 ```bash
 $ ./pseudogoogle --help
+```
+
+## Client
+
+### Installation
+
+In `client` directory run:
+
+```bash
+$ mvn install
+```
+
+### Running client
+
+Execute jar in `client/target` directory:
+
+```bash
+$ java -jar pseudogoogle-client.jar
 ```
