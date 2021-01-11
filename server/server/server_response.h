@@ -23,7 +23,7 @@ class ServerResponse {
 
   // non copyable
   ServerResponse(const ServerResponse&) = delete;
-  ServerResponse& operator=(const ServerResponse&) = default;
+  ServerResponse& operator=(const ServerResponse&) = delete;
 
   ~ServerResponse();
 
