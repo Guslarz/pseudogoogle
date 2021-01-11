@@ -25,8 +25,5 @@ $(EXEC_OUTPUT): $(EXEC) $(OBJ)
 $(OBJ):	%.o : %.cc %.h $(DEPS)
 	$(CCX) $< $(CCXFLAGS) -c -o $@
 
-client: client.cc util/coding.h
-	$(CCX) $< -Wall -std=c++17 -o $@
-
 clean:
 	rm -f $(OBJ)
