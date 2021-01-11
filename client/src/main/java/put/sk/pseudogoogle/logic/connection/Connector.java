@@ -19,6 +19,7 @@ public class Connector {
     int portNumber = parsePortNumber(port);
     try {
       socket = new Socket(inetAddress, portNumber);
+      socket.setSoTimeout(1000);
     } catch (Exception ex) {
       throw new ConnectionException();
     }
