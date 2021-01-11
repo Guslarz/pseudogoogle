@@ -1,6 +1,6 @@
 #include "loader/loader.h"
 
-#include <stack>
+#include <queue>
 #include <unordered_set>
 
 #include "storage/storage.h"
@@ -9,8 +9,8 @@
 namespace pseudogoogle {
 
 void Loader::LoadIntoStorage(Storage& storage) const {
-  // stack of pairs of url and depth
-  std::stack<std::pair<std::string, int>> urls;
+  // queue (for BFS) of pairs of url and depth
+  std::queue<std::pair<std::string, int>> urls;
   std::unordered_set<std::string> visited;
   int node_count = 0;
 
@@ -18,13 +18,17 @@ void Loader::LoadIntoStorage(Storage& storage) const {
   visited.insert(url_);
 
   while (!urls.empty()) {
-    auto [url, depth] = urls.top();
+    auto [url, depth] = urls.front();
     urls.pop();
-    ++node_count;
 
     std::printf("Loader: indexing '%s' (depth %d)\n", url.c_str(), depth);
 
     Website website(url);
+
+    // count only valid websites
+    if (website.IsValid()) {
+      ++node_count;
+    }
 
     // add words to storage
     for (const auto& [word, count] : website.WordCounter()) {

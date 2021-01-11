@@ -19,10 +19,10 @@ Website::Website(const std::string& url) {
     return;
   }
   valid_ = true;
-  Parse(request.Content());
+  Parse(request.Content(), url);
 }
 
-void Website::Parse(const std::string& document) {
+void Website::Parse(const std::string& document, const std::string& url) {
   GumboOutput* output = gumbo_parse(document.c_str());
   std::stack<const GumboNode*> nodes;
   nodes.push(output->root);
@@ -47,7 +47,7 @@ void Website::Parse(const std::string& document) {
         }
 
         if (element->tag == GUMBO_TAG_A) {
-          HandleLink(node);
+          HandleLink(node, url);
         }
 
         // add children
@@ -78,11 +78,16 @@ void Website::HandleText(const GumboNode* node) {
   }
 }
 
-void Website::HandleLink(const GumboNode* node) {
+void Website::HandleLink(const GumboNode* node, const std::string& url) {
   GumboAttribute* href =
       gumbo_get_attribute(&node->v.element.attributes, "href");
   if (href) {
-    links_.emplace(href->value);
+    std::string value = href->value;
+    // prepend url if link is relative
+    if (value[0] == '/' || value[0] == '.') {
+      value = url + value;
+    }
+    links_.insert(value);
   }
 }
 

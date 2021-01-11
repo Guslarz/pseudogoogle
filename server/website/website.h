@@ -39,11 +39,11 @@ class Website {
   std::unordered_map<std::string, int> word_counter_;
   std::unordered_set<std::string> links_;
 
-  void Parse(const std::string& document);
+  void Parse(const std::string& document, const std::string& url);
 
   void HandleText(const GumboNode* node);
 
-  void HandleLink(const GumboNode* node);
+  void HandleLink(const GumboNode* node, const std::string& url);
 
   void AddWord(const std::string& word);
 };
