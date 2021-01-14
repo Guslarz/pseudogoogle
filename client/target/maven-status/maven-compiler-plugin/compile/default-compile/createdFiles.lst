@@ -1,0 +1,14 @@
+put\sk\pseudogoogle\data\Response$Type.class
+put\sk\pseudogoogle\components\frames\ConnectionFrame$1.class
+put\sk\pseudogoogle\error\ConnectionException.class
+put\sk\pseudogoogle\components\frames\ConnectionFrame.class
+put\sk\pseudogoogle\error\InvalidPortException.class
+put\sk\pseudogoogle\components\frames\ResponseFrame.class
+put\sk\pseudogoogle\application\Application.class
+put\sk\pseudogoogle\logic\communication\Communicator.class
+put\sk\pseudogoogle\components\frames\ResponseFrame$1.class
+put\sk\pseudogoogle\error\InvalidAddressException.class
+put\sk\pseudogoogle\logic\connection\Connector.class
+put\sk\pseudogoogle\components\frames\CommunicationFrame.class
+put\sk\pseudogoogle\components\frames\CommunicationFrame$1.class
+put\sk\pseudogoogle\data\Response.class
