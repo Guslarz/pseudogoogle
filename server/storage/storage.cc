@@ -1,7 +1,9 @@
 #include "storage/storage.h"
 
+#include <algorithm>
 #include <sstream>
 #include <string>
+#include <vector>
 
 namespace pseudogoogle {
 
@@ -24,6 +26,38 @@ const std::set<Record, RecordOrderComparator>* Storage::FindWord(
     return &it->second;
   }
   return nullptr;
+}
+
+std::set<Record, RecordOrderComparator> Storage::FindAllWords(
+    const std::unordered_set<std::string>& words) const {
+  // return empty set if no words
+  if (words.size() == 0) {
+    return {};
+  }
+
+  std::vector<const std::set<Record, RecordOrderComparator>*> record_sets;
+  std::transform(words.begin(), words.end(), std::back_inserter(record_sets),
+                 [=](std::string word) { return FindWord(word); });
+
+  // if set for any word is nullptr then return empty set
+  for (const auto* record_set : record_sets) {
+    if (record_set == nullptr) {
+      return {};
+    }
+  }
+
+  // return intersection of all sets
+  std::set<Record, RecordOrderComparator> result(*record_sets.back());
+  record_sets.pop_back();
+  for (const auto* record_set : record_sets) {
+    for (const auto& record : result) {
+      if (record_set->find(record) == record_set->end()) {
+        result.erase(record);
+      }
+    }
+  }
+
+  return result;
 }
 
 std::string Storage::ToString() const {

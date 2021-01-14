@@ -8,6 +8,7 @@
 #include <stack>
 #include <string>
 
+#include "util/word_splitter.h"
 #include "website/get_request.h"
 
 namespace pseudogoogle {
@@ -65,13 +66,9 @@ void Website::Parse(const std::string& document, const std::string& url) {
 }
 
 void Website::HandleText(const GumboNode* node) {
-  const static std::regex kWordRegex(R"([^\W_]+(?:['_-][^\W_]+)*)");
-
   std::string text = std::string(node->v.text.text);
-  for (std::sregex_iterator it =
-           std::sregex_iterator(text.begin(), text.end(), kWordRegex);
-       it != std::sregex_iterator(); ++it) {
-    std::string word = it->str();
+  for (std::smatch match : WordSplitter(text)) {
+    std::string word = match.str();
     std::transform(word.begin(), word.end(), word.begin(),
                    [](char c) { return std::tolower(c); });
     AddWord(word);

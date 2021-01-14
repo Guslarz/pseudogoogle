@@ -13,9 +13,9 @@ class Record {
   Record(const std::string& url, int word_count)
       : url_(url), word_count_(word_count) {}
 
-  // non copyable
-  Record(const Record&) = delete;
-  Record& operator=(const Record&) = delete;
+  // copyable
+  Record(const Record&) = default;
+  Record& operator=(const Record&) = default;
 
   ~Record() = default;
 

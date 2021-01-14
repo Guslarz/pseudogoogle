@@ -3,6 +3,7 @@
 
 #include <set>
 #include <unordered_map>
+#include <unordered_set>
 
 #include "util/record.h"
 
@@ -25,6 +26,9 @@ class Storage {
 
   const std::set<Record, RecordOrderComparator>* FindWord(
       const std::string& word) const;
+
+  std::set<Record, RecordOrderComparator> FindAllWords(
+      const std::unordered_set<std::string>& words) const;
 
   std::string ToString() const;
 

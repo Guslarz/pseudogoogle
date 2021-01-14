@@ -2,14 +2,16 @@
 #define PSEUDOGOOGLE_SERVER_SERVER_REQUEST_H
 
 #include <string>
+#include <unordered_set>
 
 namespace pseudogoogle {
 
 /**
  * Class used to read clinet's request send to server.
- * At least for now expects:
+ * Request is:
  *  - uint32_t length (4 bytes)
- *  - char* word (length bytes)
+ *  - char* query string (`length` bytes)
+ * Query string is split into words.
  */
 class ServerRequest {
  public:
@@ -21,14 +23,17 @@ class ServerRequest {
 
   ~ServerRequest() = default;
 
-  const std::string& Word() const { return word_; }
+  const std::string& QueryString() const { return query_string_; }
+
+  const std::unordered_set<std::string>& Words() const { return words_; }
 
  private:
-  std::string word_;
+  std::string query_string_;
+  std::unordered_set<std::string> words_;
+
+  void SplitQueryString();
 
   static void ReadToBuffer(int socket_fd, char* buffer, size_t buffer_size);
-
-  static std::uint32_t DecodeLength(char* buffer);
 };
 
 }  // namespace pseudogoogle

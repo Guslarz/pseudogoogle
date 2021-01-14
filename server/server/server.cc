@@ -61,8 +61,10 @@ int Server::OpenServerSocket() const {
 void* Server::HandleRequest(void* arg) {
   ClientData* client_data = reinterpret_cast<ClientData*>(arg);
   ServerRequest request(client_data->socket_fd);
-  const auto* result = client_data->storage->FindWord(request.Word());
-  ServerResponse response(result);
+
+  const auto& result = client_data->storage->FindAllWords(request.Words());
+
+  ServerResponse response(request.Words(), result);
   response.Send(client_data->socket_fd);
 
   delete client_data;

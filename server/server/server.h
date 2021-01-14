@@ -1,6 +1,9 @@
 #ifndef PSEUDOGOOGLE_SERVER_SERVER_H
 #define PSEUDOGOOGLE_SERVER_SERVER_H
 
+#include <set>
+#include <unordered_set>
+
 #include "storage/storage.h"
 #include "util/options.h"
 

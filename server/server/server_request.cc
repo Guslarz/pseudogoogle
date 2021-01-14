@@ -3,8 +3,10 @@
 #include <unistd.h>
 
 #include <algorithm>
+#include <regex>
 
 #include "util/coding.h"
+#include "util/word_splitter.h"
 
 constexpr size_t kLengthSize = sizeof(std::uint32_t);
 
@@ -15,11 +17,20 @@ ServerRequest::ServerRequest(int socket_fd) {
   ReadToBuffer(socket_fd, length_buffer, kLengthSize);
   std::uint32_t length = DecodeFixed32(length_buffer);
 
-  char* word_buffer = new char[length];
-  ReadToBuffer(socket_fd, word_buffer, length);
-  word_ = std::string(word_buffer, length);
-  std::transform(word_.begin(), word_.end(), word_.begin(),
-                 [](char c) { return std::tolower(c); });
+  char* query_string_buffer = new char[length];
+  ReadToBuffer(socket_fd, query_string_buffer, length);
+  query_string_ = std::string(query_string_buffer, length);
+  std::transform(query_string_.begin(), query_string_.end(),
+                 query_string_.begin(), [](char c) { return std::tolower(c); });
+
+  SplitQueryString();
+}
+
+void ServerRequest::SplitQueryString() {
+  for (std::smatch match : WordSplitter(query_string_)) {
+    std::string word = match.str();
+    words_.insert(word);
+  }
 }
 
 void ServerRequest::ReadToBuffer(int socket_fd, char* buffer,

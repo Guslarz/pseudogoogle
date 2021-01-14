@@ -4,6 +4,7 @@ LDFLAGS := -lcurl -lgumbo -lpthread
 EXEC := main.cc
 EXEC_OUTPUT := pseudogoogle_server
 OBJ := \
+	util/word_splitter.o \
 	website/get_request.o \
 	website/website.o \
 	storage/storage.o \
