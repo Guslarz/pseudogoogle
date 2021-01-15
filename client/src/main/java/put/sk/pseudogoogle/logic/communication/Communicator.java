@@ -8,8 +8,6 @@ import java.net.Socket;
 import java.nio.ByteBuffer;
 
 public class Communicator {
-  private Response response;
-
   public void sendWord(Socket socket, String word) throws ConnectionException {
     byte[] encodedWord = encodeWord(word);
     try {
@@ -20,33 +18,29 @@ public class Communicator {
     }
   }
 
-  public void receiveResponse(Socket socket) {
-    response = null;
+  public Response receiveResponse(Socket socket) {
     try {
       InputStream in = socket.getInputStream();
+      Response response = new Response();
 
-      int type = in.read();
-      Response response = new Response(type);
-      if (response.getType() == Response.Type.NOT_FOUND) {
-        this.response = response;
-        return;
+      int wordsLength = readFixed32(in);
+      for (int i = 0; i < wordsLength; ++i) {
+        int wordLength = readFixed32(in);
+        String word = readString(in, wordLength);
+        response.addWord(word);
       }
 
-      int length = readFixed32(in);
-
-      for (int i = 0; i < length; ++i) {
+      int urlsLength = readFixed32(in);
+      for (int i = 0; i < urlsLength; ++i) {
         int urlLength = readFixed32(in);
         String url = readString(in, urlLength);
         response.addUrl(url);
       }
-      this.response = response;
+
+      return response;
     } catch (Exception ex) {
       throw new ConnectionException();
     }
-  }
-
-  public Response getResponse() {
-    return response;
   }
 
   private byte[] encodeWord(String word) {

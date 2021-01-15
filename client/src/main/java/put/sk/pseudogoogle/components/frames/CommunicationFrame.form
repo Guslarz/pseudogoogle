@@ -62,10 +62,10 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Word:"/>
+              <text value="Query string:"/>
             </properties>
           </component>
-          <component id="8823d" class="javax.swing.JTextField" binding="textFieldWord">
+          <component id="8823d" class="javax.swing.JTextField" binding="textFieldQueryString">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>

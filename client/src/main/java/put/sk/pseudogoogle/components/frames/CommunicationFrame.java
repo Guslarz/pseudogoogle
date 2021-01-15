@@ -3,8 +3,10 @@ package put.sk.pseudogoogle.components.frames;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import put.sk.pseudogoogle.data.Response;
 import put.sk.pseudogoogle.error.ConnectionException;
 import put.sk.pseudogoogle.logic.communication.Communicator;
+import put.sk.pseudogoogle.logic.communication.Result;
 import put.sk.pseudogoogle.logic.connection.Connector;
 
 import javax.swing.*;
@@ -16,20 +18,23 @@ import java.net.Socket;
 public class CommunicationFrame extends JFrame {
   private final Connector connector;
   private final Communicator communicator;
+  private final Result result;
   private final Runnable onResponseListener;
   private final Runnable onDisconnectListener;
   private JPanel contentPane;
   private JButton buttonSearch;
   private JButton buttonDisconnect;
-  private JTextField textFieldWord;
+  private JTextField textFieldQueryString;
 
   public CommunicationFrame(
       Connector connector,
       Communicator communicator,
+      Result result,
       Runnable onResponseListener,
       Runnable onDisconnectListener) {
     this.connector = connector;
     this.communicator = communicator;
+    this.result = result;
     this.onResponseListener = onResponseListener;
     this.onDisconnectListener = onDisconnectListener;
 
@@ -59,20 +64,22 @@ public class CommunicationFrame extends JFrame {
 
   @Override
   public void setVisible(boolean b) {
-    textFieldWord.setText("");
+    textFieldQueryString.setText("");
     super.setVisible(b);
   }
 
   private void onSearch() {
     Socket socket = connector.getSocket();
-    String word = textFieldWord.getText();
+    String queryString = textFieldQueryString.getText();
     buttonSearch.setEnabled(false);
     buttonDisconnect.setEnabled(false);
     SwingUtilities.invokeLater(
         () -> {
           try {
-            communicator.sendWord(socket, word);
-            communicator.receiveResponse(socket);
+            communicator.sendWord(socket, queryString);
+            Response response = communicator.receiveResponse(socket);
+            result.setQueryString(queryString);
+            result.setResponse(response);
             onResponseListener.run();
           } catch (ConnectionException ex) {
             JOptionPane.showMessageDialog(
@@ -221,7 +228,7 @@ public class CommunicationFrame extends JFrame {
             null,
             null));
     final JLabel label1 = new JLabel();
-    label1.setText("Word:");
+    label1.setText("Query string:");
     panel3.add(
         label1,
         new GridConstraints(
@@ -238,9 +245,9 @@ public class CommunicationFrame extends JFrame {
             null,
             0,
             false));
-    textFieldWord = new JTextField();
+    textFieldQueryString = new JTextField();
     panel3.add(
-        textFieldWord,
+        textFieldQueryString,
         new GridConstraints(
             0,
             1,

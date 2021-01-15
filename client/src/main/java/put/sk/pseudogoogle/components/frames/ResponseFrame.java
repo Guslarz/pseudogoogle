@@ -4,20 +4,24 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import put.sk.pseudogoogle.data.Response;
 import put.sk.pseudogoogle.logic.communication.Communicator;
+import put.sk.pseudogoogle.logic.communication.Result;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.stream.Collectors;
 
 public class ResponseFrame extends JFrame {
-  private final Communicator communicator;
+  private final Result result;
   private final Runnable onCancelListener;
   private JPanel contentPane;
   private JList<String> urlList;
+  private JLabel labelQueryString;
+  private JLabel labelWords;
 
-  public ResponseFrame(Communicator communicator, Runnable onCancelListener) {
-    this.communicator = communicator;
+  public ResponseFrame(Result result, Runnable onCancelListener) {
+    this.result = result;
     this.onCancelListener = onCancelListener;
 
     setContentPane(contentPane);
@@ -40,16 +44,37 @@ public class ResponseFrame extends JFrame {
   @Override
   public void setVisible(boolean b) {
     if (b) {
-      setupUrlList();
+      setupContent();
     }
     super.setVisible(b);
   }
 
+  private void setupContent() {
+    labelQueryString.setText(result.getQueryString());
+    setupWordsLabel();
+    setupUrlList();
+
+    pack();
+    setLocationRelativeTo(null);
+  }
+
+  private void setupWordsLabel() {
+    if (result.getResponse().getWords().size() == 0) {
+      labelWords.setText("No words in query string.");
+    } else {
+      String wordsString =
+          result.getResponse().getWords().stream()
+              .map(word -> String.format("'%s'", word))
+              .collect(Collectors.joining(", "));
+      labelWords.setText(wordsString);
+    }
+  }
+
   private void setupUrlList() {
     DefaultListModel<String> listModel = new DefaultListModel<>();
-    Response response = communicator.getResponse();
+    Response response = result.getResponse();
 
-    if (response.getType() == Response.Type.NOT_FOUND) {
+    if (response.getUrls().size() == 0) {
       listModel.addElement("No urls found");
     } else {
       for (String url : response.getUrls()) {
@@ -59,8 +84,6 @@ public class ResponseFrame extends JFrame {
     urlList.setModel(listModel);
     urlList.revalidate();
     urlList.repaint();
-    pack();
-    setLocationRelativeTo(null);
   }
 
   private void onCancel() {
@@ -82,7 +105,7 @@ public class ResponseFrame extends JFrame {
    */
   private void $$$setupUI$$$() {
     contentPane = new JPanel();
-    contentPane.setLayout(new GridLayoutManager(1, 1, new Insets(10, 10, 10, 10), -1, -1));
+    contentPane.setLayout(new GridLayoutManager(3, 1, new Insets(10, 10, 10, 10), -1, -1));
     contentPane.setBorder(
         BorderFactory.createTitledBorder(
             null,
@@ -91,8 +114,78 @@ public class ResponseFrame extends JFrame {
             TitledBorder.DEFAULT_POSITION,
             null,
             null));
-    final JScrollPane scrollPane1 = new JScrollPane();
+    final JPanel panel1 = new JPanel();
+    panel1.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
     contentPane.add(
+        panel1,
+        new GridConstraints(
+            1,
+            0,
+            1,
+            1,
+            GridConstraints.ANCHOR_CENTER,
+            GridConstraints.FILL_BOTH,
+            GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+            GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+            null,
+            null,
+            null,
+            0,
+            false));
+    panel1.setBorder(
+        BorderFactory.createTitledBorder(
+            null,
+            "Words",
+            TitledBorder.DEFAULT_JUSTIFICATION,
+            TitledBorder.DEFAULT_POSITION,
+            null,
+            null));
+    labelWords = new JLabel();
+    labelWords.setText("");
+    panel1.add(
+        labelWords,
+        new GridConstraints(
+            0,
+            0,
+            1,
+            1,
+            GridConstraints.ANCHOR_WEST,
+            GridConstraints.FILL_NONE,
+            GridConstraints.SIZEPOLICY_FIXED,
+            GridConstraints.SIZEPOLICY_FIXED,
+            null,
+            null,
+            null,
+            0,
+            false));
+    final JPanel panel2 = new JPanel();
+    panel2.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+    contentPane.add(
+        panel2,
+        new GridConstraints(
+            2,
+            0,
+            1,
+            1,
+            GridConstraints.ANCHOR_CENTER,
+            GridConstraints.FILL_BOTH,
+            GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+            GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+            null,
+            null,
+            null,
+            0,
+            false));
+    panel2.setBorder(
+        BorderFactory.createTitledBorder(
+            null,
+            "Urls",
+            TitledBorder.DEFAULT_JUSTIFICATION,
+            TitledBorder.DEFAULT_POSITION,
+            null,
+            null));
+    final JScrollPane scrollPane1 = new JScrollPane();
+    panel2.add(
         scrollPane1,
         new GridConstraints(
             0,
@@ -110,6 +203,50 @@ public class ResponseFrame extends JFrame {
             false));
     urlList = new JList();
     scrollPane1.setViewportView(urlList);
+    final JPanel panel3 = new JPanel();
+    panel3.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+    contentPane.add(
+        panel3,
+        new GridConstraints(
+            0,
+            0,
+            1,
+            1,
+            GridConstraints.ANCHOR_CENTER,
+            GridConstraints.FILL_BOTH,
+            GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+            GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+            null,
+            null,
+            null,
+            0,
+            false));
+    panel3.setBorder(
+        BorderFactory.createTitledBorder(
+            null,
+            "Query string",
+            TitledBorder.DEFAULT_JUSTIFICATION,
+            TitledBorder.DEFAULT_POSITION,
+            null,
+            null));
+    labelQueryString = new JLabel();
+    labelQueryString.setText("");
+    panel3.add(
+        labelQueryString,
+        new GridConstraints(
+            0,
+            0,
+            1,
+            1,
+            GridConstraints.ANCHOR_WEST,
+            GridConstraints.FILL_NONE,
+            GridConstraints.SIZEPOLICY_FIXED,
+            GridConstraints.SIZEPOLICY_FIXED,
+            null,
+            null,
+            null,
+            0,
+            false));
   }
 
   /** @noinspection ALL */

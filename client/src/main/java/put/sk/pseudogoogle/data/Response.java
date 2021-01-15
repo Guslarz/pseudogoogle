@@ -5,25 +5,24 @@ import java.util.Collection;
 
 public class Response {
 
-  public enum Type {
-    OK,
-    NOT_FOUND
-  }
-
-  private final Type type;
+  private final Collection<String> words;
   private final Collection<String> urls;
 
-  public Response(int type) {
-    this.type = Type.values()[type];
+  public Response() {
+    this.words = new ArrayList<>();
     this.urls = new ArrayList<>();
+  }
+
+  public void addWord(String word) {
+    words.add(word);
   }
 
   public void addUrl(String url) {
     urls.add(url);
   }
 
-  public Type getType() {
-    return type;
+  public Collection<String> getWords() {
+    return words;
   }
 
   public Collection<String> getUrls() {
