@@ -35,29 +35,29 @@ std::set<Record, RecordOrderComparator> Storage::FindAllWords(
     return {};
   }
 
-  std::vector<const std::set<Record, RecordOrderComparator>*> record_sets;
-  std::transform(words.begin(), words.end(), std::back_inserter(record_sets),
-                 [=](std::string word) { return FindWord(word); });
-
   // if set for any word is nullptr then return empty set
-  for (const auto* record_set : record_sets) {
-    if (record_set == nullptr) {
+  for (const auto& word : words) {
+    if (FindWord(word) == nullptr) {
       return {};
     }
   }
 
-  // return intersection of all sets
-  std::set<Record, RecordOrderComparator> result(*record_sets.back());
-  record_sets.pop_back();
-  for (const auto* record_set : record_sets) {
-    for (const auto& record : result) {
-      if (record_set->find(record) == record_set->end()) {
-        result.erase(record);
+  auto it = words.cbegin();
+  std::unordered_map<std::string, int> result = RecordSetToMap(*FindWord(*it));
+  for (++it; it != words.cend(); ++it) {
+    std::unordered_map<std::string, int> record_map =
+        RecordSetToMap(*FindWord(*it));
+    std::unordered_map<std::string, int> next_result;
+    for (const auto& [url, word_count] : result) {
+      auto record_map_it = record_map.find(url);
+      if (record_map_it != record_map.end()) {
+        next_result.emplace(url, word_count + record_map_it->second);
       }
     }
+    result = next_result;
   }
 
-  return result;
+  return RecordMapToSet(result);
 }
 
 std::string Storage::ToString() const {
@@ -70,6 +70,24 @@ std::string Storage::ToString() const {
     ss << std::endl;
   }
   return ss.str();
+}
+
+std::unordered_map<std::string, int> Storage::RecordSetToMap(
+    const std::set<Record, RecordOrderComparator>& record_set) {
+  std::unordered_map<std::string, int> record_map;
+  for (const auto& record : record_set) {
+    record_map.emplace(record.Url(), record.WordCount());
+  }
+  return record_map;
+}
+
+std::set<Record, RecordOrderComparator> Storage::RecordMapToSet(
+    const std::unordered_map<std::string, int>& record_map) {
+  std::set<Record, RecordOrderComparator> record_set;
+  for (const auto& [url, word_count] : record_map) {
+    record_set.emplace(url, word_count);
+  }
+  return record_set;
 }
 
 }  // namespace pseudogoogle

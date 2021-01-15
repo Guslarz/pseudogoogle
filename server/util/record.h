@@ -22,6 +22,8 @@ class Record {
   const std::string& Url() const { return url_; }
   int WordCount() const { return word_count_; }
 
+  bool operator==(const Record& other) const { return url_ == other.url_; }
+
  private:
   const std::string url_;
   const int word_count_;

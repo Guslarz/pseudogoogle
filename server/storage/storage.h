@@ -35,6 +35,11 @@ class Storage {
  private:
   std::unordered_map<std::string, std::set<Record, RecordOrderComparator>>
       indexed_words_;
+
+  static std::unordered_map<std::string, int> RecordSetToMap(
+      const std::set<Record, RecordOrderComparator>& record_set);
+  static std::set<Record, RecordOrderComparator> RecordMapToSet(
+      const std::unordered_map<std::string, int>& record_map);
 };
 
 }  // namespace pseudogoogle
