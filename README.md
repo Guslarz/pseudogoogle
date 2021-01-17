@@ -1,5 +1,7 @@
 # Pseudogoogle
 
+(About (PL))[report.pdf]
+
 ## Requirements for server
 - libcurl
 ```bash
@@ -55,5 +57,5 @@ $ mvn install
 Execute jar in `client/target` directory:
 
 ```bash
-$ java -jar pseudogoogle-client.jar
+$ java -jar pseudogoogle-client-jar-with-dependecies.jar
 ```
