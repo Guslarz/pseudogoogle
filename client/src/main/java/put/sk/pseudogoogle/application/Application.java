@@ -12,8 +12,6 @@ import javax.swing.*;
 
 public class Application {
   private final Connector connector;
-  private final Communicator communicator;
-  private final Result result;
   private final ConnectionFrame connectionFrame;
   private final CommunicationFrame communicationFrame;
   private final ResponseFrame responseFrame;
@@ -21,8 +19,8 @@ public class Application {
 
   Application() {
     this.connector = new Connector();
-    this.communicator = new Communicator();
-    this.result = new Result();
+    Communicator communicator = new Communicator();
+    Result result = new Result();
     this.connectionFrame =
         new ConnectionFrame(connector, this::connectedCallback, this::closeApplication);
     this.communicationFrame =
