@@ -3,7 +3,6 @@ package put.sk.pseudogoogle.components.frames;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import put.sk.pseudogoogle.data.Response;
-import put.sk.pseudogoogle.logic.communication.Communicator;
 import put.sk.pseudogoogle.logic.communication.Result;
 
 import javax.swing.*;
@@ -201,7 +200,7 @@ public class ResponseFrame extends JFrame {
             null,
             0,
             false));
-    urlList = new JList();
+    urlList = new JList<>();
     scrollPane1.setViewportView(urlList);
     final JPanel panel3 = new JPanel();
     panel3.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
