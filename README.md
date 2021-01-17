@@ -1,6 +1,6 @@
 # Pseudogoogle
 
-(About (PL))[report.pdf]
+[About (PL)](report.pdf)
 
 ## Requirements for server
 - libcurl
